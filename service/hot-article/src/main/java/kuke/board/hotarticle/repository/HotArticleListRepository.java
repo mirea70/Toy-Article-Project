@@ -35,6 +35,10 @@ public class HotArticleListRepository {
         });
     }
 
+    public void remove(Long articleId, LocalDateTime time) {
+        redisTemplate.opsForZSet().remove(generateKey(time), String.valueOf(articleId));
+    }
+
     public List<Long> readAll(String dateStr) {
         return redisTemplate.opsForZSet()
                 .reverseRangeWithScores(generateKey(dateStr), 0, -1).stream()
