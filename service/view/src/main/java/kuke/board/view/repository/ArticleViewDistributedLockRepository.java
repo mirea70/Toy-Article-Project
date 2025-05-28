@@ -12,7 +12,7 @@ public class ArticleViewDistributedLockRepository {
     private final StringRedisTemplate redisTemplate;
 
     // view::article::{article_id}::user::{user_id}::lock
-    private static final String KEY_FORMAT = "view::article::{article_id}::user::{user_id}::lock";
+    private static final String KEY_FORMAT = "view::article::%s::user::%s::lock";
 
     public boolean lock(Long articleId, Long userId, Duration ttl) {
         String key = generateKey(articleId, userId);

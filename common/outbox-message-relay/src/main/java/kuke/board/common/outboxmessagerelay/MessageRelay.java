@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
@@ -46,6 +47,12 @@ public class MessageRelay {
         }
     }
 
+    @Scheduled(
+            fixedDelay = 10,
+            initialDelay = 5,
+            timeUnit = TimeUnit.SECONDS,
+            scheduler = "messageRelayPublishPendingEventExecutor"
+    )
     public void publishPendingEvent() {
         AssignedShard assignedShard = messageRelayCoordinator.assignedShard();
         log.info("[MessageRelay.publishPendingEvent] assignedShard size={}", assignedShard.getShards().size());

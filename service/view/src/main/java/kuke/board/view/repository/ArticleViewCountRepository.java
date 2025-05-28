@@ -10,7 +10,7 @@ public class ArticleViewCountRepository {
     private final StringRedisTemplate redisTemplate;
 
     // view::article::{article_id}::view_count
-    private static final String KEY_FORMAT = "view::article::%S::view_count";
+    private static final String KEY_FORMAT = "view::article::%s::view_count";
 
     public Long read(Long articleId) {
         String result = redisTemplate.opsForValue().get(generateKey(articleId));
