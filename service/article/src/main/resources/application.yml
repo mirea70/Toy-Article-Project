@@ -19,3 +19,23 @@ spring:
       port: 6379
   kafka:
     bootstrap-servers: 127.0.0.1:9092
+
+management:
+  endpoints:
+    web:
+      exposure:
+#        include: "health,info,prometheus"
+        include: prometheus
+#  endpoint:
+#    health:
+#      show-details: "always"
+  metrics:
+    tags:
+      application: ${spring.application.name:demo}
+      profile: ${spring.profiles.active:local}
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+      slo:
+        http.server.requests: 50ms,100ms,250ms,500ms,1s,2s
+
